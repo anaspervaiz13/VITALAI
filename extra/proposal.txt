@@ -1,0 +1,376 @@
+
+PROJECT NAME
+AI-Based Disease Prediction and Health Dashboard
+ 
+ 
+
+	 
+ 
+ 
+ 
+ 
+
+                                                Student Name :
+Memoona Aqeel
+Student Name :
+Hadeesa Batool
+ 
+Supervised By
+Prof. Amna Aftab
+ 
+ 
+ 
+        Submitted for the partial fulfillment of the requirements      for the degree of Bachelor of Science in Computer Science
+ 
+ 
+ 
+                         DEPARTMENT OF COMPUTING & TECHNOLOGY
+                         IQRA UNIVERSITY CHAK SHAHZAD, ISLAMABAD
+February, 2026
+
+TABLE OF CONTENTS
+Chapter	Page
+CHAPTER 1: INTRODUCTION	1
+1.1.	Project Domain	2
+1.2.	Problem Identification	2
+1.2.1.	Proposed Solution	2
+1.2.2.	Objectives	2
+1.2.3.	Scope of the Project	2
+1.3.	Effectiveness / Usefulness of the System	3
+1.4.	Resource Requirement	3
+1.4.1.	Hardware Requirement	3
+1.4.2.	Software Requirement	3
+1.4.3.	Data Requirement	3
+1.5.	Report Organization	3
+CHAPTER 2: BACKGROUND AND EXISTING SYSTEMS	4
+2.1.	Related Literature Review	5
+2.2.	Related Systems/Applications	5
+2.3.	Identified Problem from Existing Work	6
+2.4.	Selected Boundary for Proposed Solution	6
+CHAPTER 3: SYSTEM REQUIREMENT AND SPECIFICATIONS	7
+3.1.	System Specification	8
+3.2.	System Modules	8
+3.2.1.	Name of first Module	8
+3.2.2.	Name of second Module	8
+3.3.	Functional Requirements/Software Features	9
+3.3.1	Feature 1	9
+3.4.	Non-Functional Requirements	9
+3.4.1	Usability	9
+CHAPTER 4: SYSTEM MODELING AND DESIGN	10
+4.1.	System Design and Analysis	11
+4.2.	Use Case Diagrams	11
+4.3.	Full Dress Use Case/Detailed Use Case	12
+4.3.1.	Arm/disarm systems - full dress Use case	13
+4.4.	Activity diagram	13
+4.5.	Data Flow Diagram	14
+4.6.	System Sequence Diagram	16
+4.7.	Sequence Diagram	17
+4.8.	Design Class Diagram	18
+4.9.	Architectural diagrams	19
+4.9.1.	Interface Design	20
+4.9.2.	Component Level design	20
+4.9.3	Deployment	21
+CHAPTER 5: SYSTEM TESTING AND VALIDATION	22
+5.1.	System testing	23
+5.2.	Testing Techniques	23
+5.2.1	Name of testing technique 1	23
+5.2.2	Name of testing technique 2	23
+5.3.	Test Cases	23
+5.3.1	Test Case1: Name of Test Case	24
+5.4.	Non –functional requirements	25
+CHAPTER 6: CONCLUSION	27
+6.1.	Conclusion	28
+6.2.	Limitations and Future Work	28
+APPENDIX – I	29
+REFERENCES	30
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                        Chapter 01
+                            INTRODUCTION
+
+
+
+
+
+
+
+
+
+
+
+
+
+This project is developed in the area of Artificial Intelligence and Healthcare Analytics, specifically in the area of predictive modeling using machine learning and data visualization. This project combines ideas from data mining, medical informatics, and decision support systems to analyze patient health data and predict the risk of diseases. This system also stresses the importance of preventive healthcare by providing early detection of chronic diseases using AI algorithms. This project also combines an interactive dashboard to display health information in a friendly and understandable way.
+
+The increasing incidence of non-communicable diseases, which include heart disease, diabetes, and hypertension, has created a demand for healthcare predictive systems [1]. The medical system operates through a conventional method that prioritizes disease treatment after patients show their initial symptoms [4]. The early prediction of medical conditions enables effective disease prevention and treatment management, which decreases all types of losses [7].
+
+The healthcare industry has undergone a transformation thanks to artificial intelligence and machine learning which now uses predictive and preventive methods [4] instead of traditional treatment approaches that respond to existing conditions. Machine learning algorithms use health indicators, including cholesterol and blood pressure and body mass index and glucose measurements, to identify hidden health risks that exist before patients show any symptoms [1]. Healthcare organizations face challenges in implementing these technologies because they lack comprehensive AI systems that provide both prediction capabilities and data visualization-solutions [3].
+
+The AI-Based Disease Prediction and Health Dashboard will solve this issue by combining AI-powered predictive systems with an interactive dashboard that users can easily navigate. The system allows both patients and healthcare professionals to enter their health information which results in immediate disease risk assessments and visual displays of important health data. The system uses predictive modeling together with visual analytics, which helps users make better decisions while enabling quick diagnosis and medical prevention methods[3],[4].
+
+1.	Project Domain:
+ Healthcare institutions depend on predictive analytics and data visualization to establish their implementation of artificial intelligence and data mining [4],[5]. Chronic disease rates have risen during the last ten years because people follow unhealthy diets and doctors fail to identify medical conditions in their early stages. People who need medical treatment because of their health problems will not visit doctors until their conditions reach critical points because most 
+healthcare systems only operate in response to emergencies[4].
+
+Electronic health records (EHRs) contain substantial amounts of healthcare data, yet most of this information remains untapped for early disease detection purposes [5]. This project develops an AI-based disease prediction engine, which uses machine learning algorithms to evaluate health indicators for early disease risk assessment. The system will help people and healthcare providers to enhance health results through its interactive health metrics dashboard that supports quick and knowledgeable decision-making [3].
+1.1.	Problem Identification:
+Researchers and healthcare organizations have explored various machine learning techniques, such as logistic regression, decision trees, random forests, and neural networks, for predicting chronic diseases including heart disease, diabetes, and hypertension [1],[2]. Existing AI-based clinical decision support systems show promising predictive abilities, but they contain multiple restrictions which create problems for their use.
+
+
+The system has multiple restrictions which encompass high costs for implementation together with restricted access and inadequate system customization for small healthcare facilities and their respective users who cannot understand technical results. Many prediction systems do not contain built-in visualization tools which create difficulties for users to comprehend their risk factors and health patterns [3]. The existing solutions function on two separate ends because they deliver prediction results without enabling users to interact with the system in real time. The system requires an affordable solution which enables users to understand its functions through its interactive features while providing disease prediction capabilities based on AI technology for preventive healthcare practices [4].
+1.2.	Proposed solution:
+The project establishes an AI-based tool development through the creation of the Disease Prediction and Health Dashboard system. The system will predict the risk of chronic diseases such as heart disease and diabetes and hypertension through the analysis of current and past patient records that contain blood pressure and cholesterol and glucose and BMI data [1].
+
+The research team will create and test various machine learning models which include Logistic Regression and Random Forest and Neural Networks [1],[2]. The team will use accuracy and precision and recall and F1-score to assess how well the models perform their tasks. The final system will include an interactive dashboard that enables users to display their current health data together with their historical health data which shows them disease progression and existing risk factors [3]. The main goal of the project aims to improve healthcare decision-making processes while advancing preventive healthcare methods and making AI-powered health analytics more accessible[4].
+   
+1.2.1.1.	Objectives:
+1.	To develop an AI-based system for early prediction of diseases such as heart , diabetes and hypertension.
+2.	To build and evaluate machine learning models using Logistic Regression , Random Forest , and Neural Network.
+3.	To understand trends and pattern in health data associated with chronic diseases development.
+4.	To design user friendly health dashboard for visualizing prediction and trends
+5.	To use data driven decision making throughout the process that will help improve both the ability to diagnose a chronic illness early, as well as stop the development of a chronic illness.
+6.	To create a means of providing users with real-time risk assessments from user inputs so that we can eliminate delays in diagnosing a chronic illness.
+7.	To increase access to individual patients as well as smaller healthcare providers to a predictive model (tool) for managing patients with chronic illness.
+8.	To evaluate the validity of our results through an analysis of the performance of each of the models used (accuracy, precision, recall, and F1 Score).
+1.2.1.2.	Scope of Project:
+The AI-Based Disease Prediction and Health Dashboard operates within its established functional capabilities which include prediction and visualization and decision support. The system will accept health-related inputs such as age, blood pressure, cholesterol, glucose level, and BMI through a web-based interface [5]. 
+The system uses pre-trained machine learning models to deliver real-time heart disease and diabetes and hypertension predictions which it displays through visual dashboards. The system functions only to perform initial risk evaluation and promote health knowledge. The system does not offer clinical diagnosis or treatment guidelines or prescription creation or hospital record management. The application acts as a decision support tool which also helps users understand preventive healthcare measures [4].
+
+1.3.	Effectiveness / usefulness of system:
+The proposed system enhances existing disease prediction approaches by combining accurate machine learning models with an intuitive visual dashboard [3]. The system enables three functions which include conducting real-time risk assessments and comparing various predictive models and displaying health indicator data in straightforward terms. 
+The system can be used by healthcare professionals and individuals to identify high-risk cases at an early stage and monitor personal health trends and support preventive healthcare interventions. Improved early detection and data-driven decision-making can create two benefits which include reduced healthcare costs and better patient outcomes [7].
+1.4.	Resource Requirements:
+ In this section, we will review the resources required for the successful development and execution of our proposed AI-Based Disease Prediction and Health Dashboard Project which consists of the training of machine learning models, backend processing, and frontend visualization and will require adequate hardware, software, and datasets. Having adequate resources will guarantee that the system can be developed smoothly during development, that machine learning model training will be done efficiently, and that the system will perform reliably when executing.
+1.4.1.1.	Hardware Requirements:
+To develop and run the proposed system, you will need a regular PC that can support the various processes required to complete Machine Learning model training, data preprocessing steps, and web application deployment is required. To successfully perform all the functions of model training as well as real-time prediction, the PC must have sufficient processing power, memory, and storage. Table 1.1 lists the hardware specifications required for this project and provides details on the minimum and recommended configurations of the hardware.
+                           Table 1.1: Hardware Requirements
+
+                       
+Components 	Specification 
+Processor 	Intel Core i5 or more
+RAM	Minimum 8GB
+Storage	256-GB SSD or higher
+Graphics	Optional(for neural networking)
+Display	Standard Monitor
+Internet	Stable internet connection
+
+
+1.4.1.2.	Software Requirements:
+To develop the solution outlined above, every aspect of the system will include many different aspects (programming languages, frameworks, libraries, and software development tools). For example, Python will be used as part of the data preprocessing and development of machine learning models, and JavaScript frameworks will provide an interface between the front and back ends of the system to provide integrative functionality.
+ Table 1.2 lists the software tools/technologies required to support each component of the development process and their intended use within the project.
+                            Table 1.2: Software Requirements
+Software tools 		Purpose 
+Python
+	Machine learning model development
+Scikit-learn
+	ML algorithm implementation 
+Tensor Flow
+	Neural network development
+Pandas & NumPy
+	Data pre-processing and analysis
+React.js / Node.js / Express.js
+	React.js for frontend development Node.js/ express.js for backend API development
+MongoDB
+	Database for storing data
+Jupyter Notebook
+	Experiments and model training
+VS Code
+	Code development 
+GitHub
+	Version control 
+
+
+1.4.1.3.	Data Requirements:
+As this is a project utilizing machine learning techniques, suitable datasets must be available that can be relied upon to train, test, and validate prediction models. The predicted datasets used by the system will consist of structured health datasets for each patient that contain different attributes, including age, sex, blood pressure, cholesterol, blood glucose, BMI, and any diseases they may have. The datasets that will be used will be publicly available datasets[8] on heart disease , diabetes, and hypertension so that all considerations of ethical use of data   and reproducibility are taken into account when creating our dataset. Each dataset will be preprocessed to remove missing values, normalize all features within the dataset and otherwise prepare the datasets for model training and validation
+
+1.5.	Report organization:
+The report is structured in various sections.
+ In Chapter 1, we provide a description of the project's background, describe the problem, outline our objectives, provide an overview of the project's scope, and describe the resources required to complete this project.
+In Chapter 2, we provide a review of the literature and summarize previous research related to AI-based disease prediction systems.
+In Chapter 3, we outline our proposed methodology, architecture of the system, and machine learning models that will be used in this project.
+In Chapter 4, we provide information about the implementation of the system. This section discusses the system implementation, including the frontend and backend (both server and client sides) and the integration of the model.
+Chapter 5  provides the results of the project, performance evaluation, and discussion of the results.
+Finally, Chapter 6  concludes the project and identifies potential enhancements.
+
+                                      
+                                               Chapter 02
+             BACKGROUND AND EXISTING 
+                                    SYSTEMS
+
+
+
+
+
+
+
+
+
+
+
+
+
+The global rise in chronic diseases, including cardiovascular diseases, diabetes, and hypertension, has created a demand for intelligent systems that enable early disease detection and preventive medical care [9]. Scientists use AI and machine learning technologies to analyze patient health data, and their research shows the potential to detect disease risk before patients develop clinical symptoms [1]. 
+This chapter reviews the existing literature, AI-based healthcare systems, and disease prediction models. Existing methods show multiple limitations because they are expensive, fail to provide accessible solutions, lack interpretable results, and do not offer visualizations [2] , [3]. These limitations provide a reason to develop the proposed system.
+2.	Related literature review:
+Smith et al. (2023) [1] The researchers developed a machine learning method which analyzes structured medical data to forecast early disease detection. The researchers assessed how Logisitc Regression and Random Forest algorithms performed in predicting heart disease and diabetes development. The system reached high prediction accuracy but it failed to deliver real-time predictions and visualization abilities.
+
+Li and Kim (2022)[2] studied AI-based clinical decision support systems which operate through neural network technology. The research found improved disease risk prediction results but three main challenges emerged because the system required high processing power and had complex system design and usability problems arose because users did not understand the system and essential user interface components were absent.
+
+Gupta et al.(2024)[3] developed a preventive healthcare system which uses dashboard technology to present data visualization. Although the system helped users understand information better its actual effect stayed limited because of three factors which included small dataset size and single disease focus and absence of machine learning model comparison.
+                                    Table 2.1: Summary of Reviewed Literature
+
+Year
+	Authors
+	Contribution
+	Techniques
+	Limitations
+
+2023	Smith et al	Early disease prediction using ML models
+	Logistic Regression, Random Forest
+	No real-time prediction, lack of visualization
+
+2022	Li and Kim	AI-driven clinical decision support systems
+	Neural Networks
+	High cost, 
+Complex system
+low interpretability
+
+2024	Gupta et al	Dashboard-based predictive healthcare solution
+	Machine Learning with Data Visualization
+	Limited dataset, single disease focus
+
+
+2.1.	Related system application:
+IBM Watson Health [6] serves as a leading healthcare platform which uses artificial intelligence to assist doctors with their medical decision-making through its advanced analytical capabilities and machine learning and natural language processing systems. The platform delivers effective results because it operates at high costs and requires complex implementation procedures which make it suitable only for large healthcare organizations. 
+
+Another application is a web-based Heart Disease Prediction System that is implemented using various Machine Learning algorithms, such as Random Forest and Logistic Regression [8]. When the application is used, a person can enter simple clinical data (for example, age, sex, and cholesterol levels) and the application returns the probability that the person will develop heart disease. The system is simple to use and has low computational requirements, making it easy to implement. However, the application is limited to providing predictions for only one disease and does not present the prediction output interactively. The application does not contain an interactive dashboard, real-time analytics of the data, and does not visually represent all of the risk factors so that users can use the application to make informed health care decisions.
+
+An alternative use case is a health monitoring and prediction system using a dashboard approach to visually display health indicators and trends for patients [3]. The system utilizes basic predictive models with graphical charts to improve user comprehension and engagement. Although the dashboard format is often more easily interpreted than the text format, these systems tend to rely on limited datasets and basic machine learning models. Therefore, the predictive capabilities of the app, as well as its application, are limited in terms of advanced model comparison and real-time analysis of multiple diseases. Thus, the predictive capabilities of the app are very limited in scope, and a more powerful and integrated solution is needed.
+
+                                                   Table 2.2: Summary of Existing System
+Year 	Systems 
+	Contribution
+	Techniques
+	Limitations
+	Applications 
+2023	IBM Watson
+ Health
+	AI-based clinical decision support
+	AI, ML, NLP, Big Data
+	High cost, complex setup, limited explainability
+	Hospitals, clinical decision-making
+
+2022	Web-based Heart Disease Prediction System
+	ML-based early heart disease risk prediction
+	Python, Scikit-learn, Web
+	Single disease focus, no dashboard, static results
+	Health screening, academic projects
+
+2024	Dashboard-based Health Monitoring System
+	Visualization of health indicators and risks
+	ML, Web Dashboards, Charts
+	Limited datasets, no real-time prediction, low scalability
+	Personal health monitoring
+
+
+
+2.2.	Identifying problem from existing system 
+      A thorough review of the literature and analysis of existing systems revealed numerous unresolved issues that impact the performance of AI-based disease prediction systems [7]. Commercial healthcare systems provide advanced analytics capabilities; however, their adoption is limited by high operational costs, complicated system architecture, and reliance on advanced technical infrastructure. Most are designed for use by large hospitals and, therefore, would not be practical for smaller healthcare facilities or for use by individuals [6].
+        Conversely, most academic and research-based machine-learning applications concentrate on obtaining good predictive accuracy but do not include important functional necessities (i.e., ease of use, interpretability, and real-time interaction), thus limiting their usability [1], [2]. These applications are typically limited to predicting one disease in a static or textual format, making it impossible to conduct a comprehensive analysis of a person’s health status and make informed decisions regarding health. In addition, most systems today do not include an integrated graphical dashboard to display trends in health and risk factors, which can lead to confusion for users without technical expertise. Finally, from a non-functional standpoint, many of the same issues related to scalability, flexibility, and generalizability [5] exist today owing to a reliance on small datasets and no comparison of different machine learning models.
+       The current research study identifies multiple unsolved problems which exist in the existing literature and operational systems. The existing systems restrict their operations to test single diseases while they do not evaluate multiple machine learning algorithms which results in decreased system performance and user experience.
+        The identified areas of improvement indicate the need for creating a better balanced solution through the combination of affordable, multi-disease predictive capabilities, timely (or real-time) analysis, and interactive visualization of data [8]. In particular, this proposed project will enhance current research activities that have been limited by the aforementioned factors by creating an affordable and interpretable design based AI-based multi-disease predictive model, representing the definition of a limited research scope.
+
+2.3.	Selected boundary for proposed solution 
+The proposed AI-Based Disease Prediction and Health Dashboard addresses the limitations identified in existing disease prediction systems discussed in Section 2.2. The system uses machine learning models to predict multiple disease risks and displays the results through an interactive dashboard [3] , [4] , which improves understanding and decision-making.
+The system design omits clinical diagnosis, treatment recommendations, prescription generation, EHR management, wearable device integration, and hospital-level patient population management to achieve operational efficiency and system sustainability [4]. The proposed solution operates as a decision-support system that provides health awareness functions rather than functioning as a comprehensive healthcare management platform.
+
+The scope was limited to ensure maintainability and efficiency, resulting in the exclusion of various functional features.
+The specific exclusion criteria were as follows:
+
+(1) Clinical Diagnostic Functions e.g., diagnosis clinically
+
+(2) Medical Treatment recommendations e.g., recommending whereby physicians utilize an EHR to make recommendations
+
+(3) Prescription generation e.g., any process of producing a prescription to a vendor where it requires the clinical expertise of a physician to process
+
+(4) Managing patient medical records, electronic health records (EHRs), or historical patient databases at a Company level e.g., any means of managing patient medical records and associated documentation with a patient
+
+(5) Capability to interact with wearable devices for purposes of tracking patient information and delivering real time alerts to physician
+
+(6) Capability to manage the patient population within hospitals (for example, a series of alerts indicating the need for intervention) using data from large-scale clinical implementation.
+The limitations defined herein delineate the proposed system from being considered a complete HealthCare Management System or similar but rather a decision-supporting and awareness-based system for utilization by physicians.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                REFERANCES 
+
+
+
+
+
+
+
+
+
+
+
+
+[1] A. Smith, J. Brown, and L. Taylor, “Machine Learning Techniques for Early Disease Prediction,” IEEE Access, vol. 11, pp. 45678–45690, 2023.
+[2] H. Li and J. Kim, “AI-Based Clinical Decision Support Systems in Healthcare,” IEEE Transactions on Biomedical Engineering, vol. 69, no. 4, pp. 1123–1135, 2022.
+[3] M. Gupta, R. Verma, and S. Patel, “Dashboard-Based Preventive Healthcare Analytics,” Journal of Medical Systems, vol. 48, no. 2, pp. 1–12, 2024.
+[4] K. Rajkomar, J. Dean, and I. S. Kohane, “Machine Learning in Medicine,” New England Journal of Medicine, vol. 380, no. 14, pp. 1347–1358, 2019.
+[5] S. Shickel et al., “Deep EHR: A Survey of Deep Learning for Electronic Health Records,” IEEE Journal of Biomedical and Health Informatics, vol. 22, no. 5, pp. 1589–1604, 2018.
+[6] IBM Corporation, IBM Watson Health: Advancing Clinical Decision Support Using Artificial Intelligence, White Paper, 2023.
+[7] World Health Organization, “Noncommunicable Diseases (NCDs),” WHO Fact Sheet, 2023.
+[8] UCI Machine Learning Repository, “Heart Disease Dataset,” University of California, Irvine, 2022.
+[9] Centers for Disease Control and Prevention (CDC), “Chronic Disease Overview,” 2023.
+

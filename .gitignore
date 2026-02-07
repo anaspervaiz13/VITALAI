@@ -1,0 +1,15 @@
+# Data files
+data/brfss_cleaned.csv
+brfss_cleaned.csv
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+env/
+.env
+
+# Node
+node_modules/
+dist/
+data/brfss_cleaned.csv

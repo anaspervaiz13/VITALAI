@@ -1,0 +1,576 @@
+from google.colab import drive
+drive.mount('/content/drive')
+Mounted at /content/drive
+import pandas as pd
+brfss_data= pd.read_csv('/content/drive/MyDrive/2011.csv')
+brfss_data.head()
+Show hidden output
+cols_to_drop = [
+# Survey / admin / technical
+"_STATE", "_PSU", "SEQNO", "IDATE", "IMONTH", "IDAY", "IYEAR",
+"INTVID", "DISPCODE", "NATTMPTS", "NRECSEL", "NRECSTR",
+"CTELENUM", "CELLFON", "LANDLINE", "CALLBACK",
+"QSTVER", "QSTLANG", "MSCODE",
+# Pregnancy / children / family planning
+"PREGNANT", "CHILDREN", "CHILDAGE",
+"PFPPRGNT", "PFPPRVNT", "TYPCNTR6",
+# Vision / vaccines / out of scope health
+"VIREDIF3", "VIPRFVS3", "VIEYEXM3", "VIINSUR3",
+"SHINGLE1", "HPVADVC2",
+# Detailed mental-health questions
+"ADPLEASR", "ADDOWN", "ADSLEEP", "ADENERGY",
+"ADEAT1", "ADFAIL", "ADTHINK", "ADMOVE",
+# Veteran / PTSD
+"VETERAN3", "VHCOMBAT", "VHDRPTSD",
+"VHTAKLIF", "VHSUICID",
+# Survey weights / raking variables
+"_RAW", "_WT2", "_RAWRAKE", "_WT2RAKE", "_STRWT"
+]
+brfss_data.drop(columns=cols_to_drop, inplace=True, errors="ignore")
+print("Remaining columns:", brfss_data.shape[1])
+Remaining columns: 405
+"_STATE" in brfss_data.columns
+False
+for col in ["_STATE", "PREGNANT", "_WT2"]:
+print(col, "->", col in brfss_data.columns)
+_STATE -> False
+PREGNANT -> False
+_WT2 -> False
+cols_to_keep = [
+"AGE", "SEX", "MARITAL", "EDUCA", "EMPLOY", "INCOME2",
+"GENHLTH", "PHYSHLTH", "MENTHLTH", "POORHLTH",
+"BPHIGH4", "BPMEDS", "BLOODCHO", "CHOLCHK",
+"CVDINFR4", "CVDCRHD4", "CVDSTRK3",
+"DIABETE3", "PREDIAB1", "BLDSUGAR", "INSULIN", "DIABAGE2",
+"WEIGHT2", "HEIGHT3", "_BMI5", "_BMI5CAT",
+"SMOKE100", "SMOKDAY2", "ALCDAY5", "EXERANY2",
+"HLTHPLN1", "PERSDOC2", "MEDCOST", "CHECKUP1"
+]
+df = brfss_data[cols_to_keep]
+2/7/26, 2:58 PM Untitled5.ipynb - Colab
+https://colab.research.google.com/drive/1GjASjJTP5jcSFMGBVE-FpmVQ_lFo-He4#scrollTo=R6TSXAF_-pFq&printMode=true 1/10
+df.to_csv("brfss_cleaned.csv", index=False)
+print("Number of columns:", df.shape[1])
+Number of columns: 34
+df.isnull().sum()
+Show hidden output
+df = df.dropna()
+print("Shape after dropping nulls:", df.shape)
+Shape after dropping nulls: (0, 34)
+important_cols = [
+"AGE", "SEX", "BPHIGH4", "BLOODCHO",
+"DIABETE3", "_BMI5", "SMOKE100", "EXERANY2"
+]
+df = df.dropna(subset=important_cols)
+print("Shape after dropping nulls in key columns:", df.shape)
+Shape after dropping nulls in key columns: (0, 34)
+import pandas as pd
+import numpy as np
+brfss_data = pd.read_csv("brfss_cleaned.csv")
+missing_codes = [7, 9, 77, 99, 777, 999, 7777, 9999]
+key_cols = ["AGE", "SEX", "BPHIGH4", "DIABETE3", "_BMI5"]
+brfss_data[key_cols] = brfss_data[key_cols].replace(missing_codes, np.nan)
+brfss_data = brfss_data.dropna(subset=key_cols)
+y = brfss_data["DIABETE3"].replace({2: 0})
+X = brfss_data.drop(columns=["DIABETE3"])
+X_encoded = pd.get_dummies(X, drop_first=True)
+key_cols = ["AGE", "SEX", "BPHIGH4", "DIABETE3", "_BMI5"]
+brfss_data[key_cols] = brfss_data[key_cols].replace(missing_codes, np.nan)
+brfss_data.dropna(subset=key_cols, inplace=True)
+print("Shape after cleaning key columns:", brfss_data.shape)
+Shape after cleaning key columns: (466884, 34)
+brfss_data.shape
+(466884, 34)
+X_encoded.shape
+y.shape
+(462855,)
+import pandas as pd
+from sklearn.model_selection import train_test_split
+2/7/26, 2:58 PM Untitled5.ipynb - Colab
+https://colab.research.google.com/drive/1GjASjJTP5jcSFMGBVE-FpmVQ_lFo-He4#scrollTo=R6TSXAF_-pFq&printMode=true 2/10
+from sklearn.preprocessing import StandardScaler
+from sklearn.impute import SimpleImputer
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score, classification_report
+# -----------------------------
+# Step 1: Prepare target y
+# -----------------------------
+targets = ["DIABETE3", "BPHIGH4", "CVDCRHD4"]
+y = brfss_data[targets].replace({2:0}) # 2 = No -> 0
+# Remove invalid codes (keep only 0,1)
+for col in targets:
+y = y[y[col].isin([0,1])]
+y = y.astype(int)
+# -----------------------------
+# Step 2: Prepare features X
+# -----------------------------
+X = brfss_data.loc[y.index].drop(columns=targets)
+X_encoded = pd.get_dummies(X, drop_first=True)
+# -----------------------------
+# Step 3: Train-test split
+# -----------------------------
+X_train, X_test, y_train, y_test = train_test_split(
+X_encoded, y, test_size=0.2, random_state=42, stratify=y
+)
+# -----------------------------
+# Step 4: Impute missing values
+# -----------------------------
+imputer = SimpleImputer(strategy="median")
+X_train_imputed = imputer.fit_transform(X_train)
+X_test_imputed = imputer.transform(X_test)
+# -----------------------------
+# Step 5: Scale features
+# -----------------------------
+scaler = StandardScaler()
+X_train_scaled = scaler.fit_transform(X_train_imputed)
+X_test_scaled = scaler.transform(X_test_imputed)
+# -----------------------------
+# Step 6: Train Logistic Regression for each disease
+# -----------------------------
+models = {}
+for col in targets:
+print(f"Training Logistic Regression for {col}...")
+lr = LogisticRegression(class_weight='balanced', max_iter=1000, random_state=42)
+lr.fit(X_train_scaled, y_train[col])
+models[col] = lr
+# -----------------------------
+# Step 7: Evaluate models
+# -----------------------------
+for col in targets:
+y_pred = models[col].predict(X_test_scaled)
+print(f"\n--- {col} ---")
+print(f"Accuracy: {accuracy_score(y_test[col], y_pred):.3f}")
+print(classification_report(y_test[col], y_pred))
+# -----------------------------
+# Step 8: Predict probabilities for new patients
+# -----------------------------
+probs = {col: models[col].predict_proba(X_test_scaled[:5])[:,1] for col in targets}
+for i in range(5):
+print(f"\nPatient {i+1}:")
+for col in targets:
+print(f" {col} probability: {probs[col][i]*100:.1f}%")
+# Optional: store in DataFrame
+patient_probs = pd.DataFrame(probs)
+0 0 13 0 84 0 22 300
+2/7/26, 2:58 PM Untitled5.ipynb - Colab
+https://colab.research.google.com/drive/1GjASjJTP5jcSFMGBVE-FpmVQ_lFo-He4#scrollTo=R6TSXAF_-pFq&printMode=true 3/10
+ 0 0.13 0.84 0.22 300
+ 1 0.99 0.80 0.89 8456
+ accuracy 0.80 8756
+ macro avg 0.56 0.82 0.55 8756
+weighted avg 0.96 0.80 0.86 8756
+--- BPHIGH4 ---
+Accuracy: 0.840
+ precision recall f1-score support
+ 0 0.05 0.84 0.10 94
+ 1 1.00 0.84 0.91 8662
+ accuracy 0.84 8756
+ macro avg 0.53 0.84 0.51 8756
+weighted avg 0.99 0.84 0.90 8756
+--- CVDCRHD4 ---
+Accuracy: 0.732
+ precision recall f1-score support
+ 0 0.92 0.74 0.82 7158
+ 1 0.38 0.72 0.50 1598
+ accuracy 0.73 8756
+ macro avg 0.65 0.73 0.66 8756
+weighted avg 0.82 0.73 0.76 8756
+Patient 1:
+ DIABETE3 probability: 60.3%
+ BPHIGH4 probability: 65.9%
+ CVDCRHD4 probability: 43.0%
+Patient 2:
+ DIABETE3 probability: 100.0%
+ BPHIGH4 probability: 85.2%
+ CVDCRHD4 probability: 34.4%
+Patient 3:
+ DIABETE3 probability: 40.8%
+ BPHIGH4 probability: 12.7%
+ CVDCRHD4 probability: 21.9%
+Patient 4:
+ DIABETE3 probability: 76.9%
+ BPHIGH4 probability: 89.4%
+ CVDCRHD4 probability: 41.9%
+Patient 5:
+ DIABETE3 probability: 63.7%
+ BPHIGH4 probability: 71.2%
+CVDCRHD4 probability: 35.0%
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.impute import SimpleImputer
+from sklearn.preprocessing import StandardScaler
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.multioutput import MultiOutputClassifier
+from sklearn.metrics import accuracy_score, classification_report
+# -----------------------------
+# Step 1: Prepare target y
+# -----------------------------
+targets = ["DIABETE3", "BPHIGH4", "CVDCRHD4"]
+y = brfss_data[targets].replace({2: 0}) # 2 = No -> 0
+for col in targets:
+y = y[y[col].isin([0, 1])]
+y = y.astype(int)
+# -----------------------------
+# Step 2: Prepare features X
+# -----------------------------
+X = brfss_data.loc[y.index].drop(columns=targets)
+X_encoded = pd.get_dummies(X, drop_first=True)
+# -----------------------------
+2/7/26, 2:58 PM Untitled5.ipynb - Colab
+https://colab.research.google.com/drive/1GjASjJTP5jcSFMGBVE-FpmVQ_lFo-He4#scrollTo=R6TSXAF_-pFq&printMode=true 4/10
+# Step 3: Train-test split
+# -----------------------------
+X_train, X_test, y_train, y_test = train_test_split(
+X_encoded,
+y,
+test_size=0.2,
+random_state=42,
+stratify=y
+)
+# -----------------------------
+# Step 4: Impute missing values
+# -----------------------------
+imputer = SimpleImputer(strategy="median")
+X_train_imputed = imputer.fit_transform(X_train)
+X_test_imputed = imputer.transform(X_test)
+# -----------------------------
+# Step 5: (Optional) Scale features
+# -----------------------------
+# Random Forest does NOT require scaling,
+# but keeping it consistent with earlier models is fine
+scaler = StandardScaler()
+X_train_scaled = scaler.fit_transform(X_train_imputed)
+X_test_scaled = scaler.transform(X_test_imputed)
+# -----------------------------
+# Step 6: Multi-output Random Forest
+# -----------------------------
+rf = RandomForestClassifier(
+n_estimators=200,
+max_depth=None,
+min_samples_split=2,
+class_weight="balanced",
+random_state=42,
+n_jobs=-1
+)
+multi_rf = MultiOutputClassifier(rf)
+multi_rf.fit(X_train_scaled, y_train)
+# -----------------------------
+# Step 7: Evaluate model
+# -----------------------------
+y_pred = multi_rf.predict(X_test_scaled)
+for i, col in enumerate(targets):
+print(f"\n--- {col} ---")
+print(f"Accuracy: {accuracy_score(y_test[col], y_pred[:, i]):.3f}")
+print(classification_report(y_test[col], y_pred[:, i]))
+# -----------------------------
+# Step 8: Predict probabilities
+# -----------------------------
+probs_list = multi_rf.predict_proba(X_test_scaled[:5])
+for i in range(5):
+print(f"\nPatient {i+1}:")
+for j, col in enumerate(targets):
+print(f" {col} probability: {probs_list[j][i, 1]*100:.1f}%")
+# Optional DataFrame
+patient_probs = pd.DataFrame({
+col: probs_list[j][:, 1] * 100 for j, col in enumerate(targets)
+})
+ precision recall f1-score support
+ 0 0.81 0.26 0.40 300
+ 1 0.97 1.00 0.99 8456
+ accuracy 0.97 8756
+ macro avg 0.89 0.63 0.69 8756
+weighted avg 0.97 0.97 0.97 8756
+Accuracy: 0 991
+2/7/26, 2:58 PM Untitled5.ipynb - Colab
+https://colab.research.google.com/drive/1GjASjJTP5jcSFMGBVE-FpmVQ_lFo-He4#scrollTo=R6TSXAF_-pFq&printMode=true 5/10
+Accuracy: 0.991
+ precision recall f1-score support
+ 0 0.85 0.18 0.30 94
+ 1 0.99 1.00 1.00 8662
+ accuracy 0.99 8756
+ macro avg 0.92 0.59 0.65 8756
+weighted avg 0.99 0.99 0.99 8756
+--- CVDCRHD4 ---
+Accuracy: 0.844
+ precision recall f1-score support
+ 0 0.87 0.96 0.91 7158
+ 1 0.63 0.34 0.45 1598
+ accuracy 0.84 8756
+ macro avg 0.75 0.65 0.68 8756
+weighted avg 0.82 0.84 0.82 8756
+Patient 1:
+ DIABETE3 probability: 98.5%
+ BPHIGH4 probability: 99.5%
+ CVDCRHD4 probability: 10.5%
+Patient 2:
+ DIABETE3 probability: 100.0%
+ BPHIGH4 probability: 99.0%
+ CVDCRHD4 probability: 19.0%
+Patient 3:
+ DIABETE3 probability: 93.0%
+ BPHIGH4 probability: 96.5%
+ CVDCRHD4 probability: 7.0%
+Patient 4:
+ DIABETE3 probability: 99.0%
+ BPHIGH4 probability: 100.0%
+ CVDCRHD4 probability: 2.0%
+Patient 5:
+ DIABETE3 probability: 98.0%
+ BPHIGH4 probability: 100.0%
+ CVDCRHD4 probability: 7.0%
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.impute import SimpleImputer
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.multioutput import MultiOutputClassifier
+from sklearn.metrics import accuracy_score, classification_report
+# -----------------------------
+# Step 1: Prepare target y
+# -----------------------------
+targets = ["DIABETE3", "BPHIGH4", "CVDCRHD4"]
+y = brfss_data[targets].replace({2:0}) # 2=No -> 0
+for col in targets:
+y = y[y[col].isin([0,1])] # remove invalid codes
+y = y.astype(int)
+# -----------------------------
+# Step 2: Prepare features X
+# -----------------------------
+X = brfss_data.loc[y.index].drop(columns=targets)
+X_encoded = pd.get_dummies(X, drop_first=True)
+# -----------------------------
+# Step 3: Train-test split
+# -----------------------------
+X_train, X_test, y_train, y_test = train_test_split(
+X_encoded,
+y,
+test_size=0.2,
+random_state=42,
+stratify=y
+)
+2/7/26, 2:58 PM Untitled5.ipynb - Colab
+https://colab.research.google.com/drive/1GjASjJTP5jcSFMGBVE-FpmVQ_lFo-He4#scrollTo=R6TSXAF_-pFq&printMode=true 6/10
+)
+# -----------------------------
+# Step 4: Impute missing values
+# -----------------------------
+imputer = SimpleImputer(strategy="median")
+X_train_imputed = imputer.fit_transform(X_train)
+X_test_imputed = imputer.transform(X_test)
+# -----------------------------
+# Step 5: Scale features (optional for Decision Tree)
+# -----------------------------
+scaler = StandardScaler()
+X_train_scaled = scaler.fit_transform(X_train_imputed)
+X_test_scaled = scaler.transform(X_test_imputed)
+# -----------------------------
+# Step 6: Multi-output Decision Tree
+# -----------------------------
+dt = DecisionTreeClassifier(
+max_depth=5, # limit depth to smooth probabilities
+min_samples_leaf=10, # at least 10 samples per leaf
+class_weight='balanced',
+random_state=42
+)
+multi_dt = MultiOutputClassifier(dt)
+multi_dt.fit(X_train_scaled, y_train)
+# -----------------------------
+# Step 7: Evaluate on test set
+# -----------------------------
+y_pred = multi_dt.predict(X_test_scaled)
+for i, col in enumerate(targets):
+print(f"\n--- {col} ---")
+print(f"Accuracy: {accuracy_score(y_test[col], y_pred[:, i]):.3f}")
+print(classification_report(y_test[col], y_pred[:, i]))
+# -----------------------------
+# Step 8: Predict probabilities for first 5 patients
+# -----------------------------
+probs_list = multi_dt.predict_proba(X_test_scaled[:5])
+for i in range(5):
+print(f"\nPatient {i+1}:")
+for j, col in enumerate(targets):
+print(f" {col} probability: {probs_list[j][i,1]*100:.1f}%")
+# Optional: store in DataFrame
+patient_probs = pd.DataFrame({
+col: probs_list[j][:,1]*100 for j, col in enumerate(targets)
+})
+--- DIABETE3 ---
+Accuracy: 0.881
+ precision recall f1-score support
+ 0 0.19 0.77 0.31 300
+ 1 0.99 0.89 0.94 8456
+ accuracy 0.88 8756
+ macro avg 0.59 0.83 0.62 8756
+weighted avg 0.96 0.88 0.91 8756
+--- BPHIGH4 ---
+Accuracy: 0.902
+ precision recall f1-score support
+ 0 0.07 0.71 0.14 94
+ 1 1.00 0.90 0.95 8662
+ accuracy 0.90 8756
+ macro avg 0.54 0.81 0.54 8756
+weighted avg 0.99 0.90 0.94 8756
+2/7/26, 2:58 PM Untitled5.ipynb - Colab
+https://colab.research.google.com/drive/1GjASjJTP5jcSFMGBVE-FpmVQ_lFo-He4#scrollTo=R6TSXAF_-pFq&printMode=true 7/10
+--- CVDCRHD4 ---
+Accuracy: 0.820
+ precision recall f1-score support
+ 0 0.90 0.87 0.89 7158
+ 1 0.51 0.58 0.54 1598
+ accuracy 0.82 8756
+ macro avg 0.70 0.73 0.72 8756
+weighted avg 0.83 0.82 0.82 8756
+Patient 1:
+ DIABETE3 probability: 77.4%
+ BPHIGH4 probability: 71.7%
+ CVDCRHD4 probability: 43.4%
+Patient 2:
+ DIABETE3 probability: 77.4%
+ BPHIGH4 probability: 71.7%
+ CVDCRHD4 probability: 43.4%
+Patient 3:
+ DIABETE3 probability: 3.6%
+ BPHIGH4 probability: 2.5%
+ CVDCRHD4 probability: 12.9%
+Patient 4:
+ DIABETE3 probability: 77.4%
+ BPHIGH4 probability: 71.7%
+ CVDCRHD4 probability: 24.0%
+Patient 5:
+import tensorflow as tf
+from tensorflow.keras.models import Model
+from tensorflow.keras.layers import Input, Dense
+from tensorflow.keras.optimizers import Adam
+from sklearn.preprocessing import StandardScaler
+from sklearn.model_selection import train_test_split
+from sklearn.impute import SimpleImputer
+# Assume brfss_data is your cleaned DataFrame
+# Targets
+targets = ["DIABETE3", "BPHIGH4", "CVDCRHD4"]
+# -----------------------------
+# Step 1: Prepare target y
+# -----------------------------
+y = brfss_data[targets].replace({2:0}) # 2=No -> 0
+for col in targets:
+y = y[y[col].isin([0,1])] # remove invalid codes
+y = y.astype(int)
+# -----------------------------
+# Step 2: Prepare features X
+# -----------------------------
+X = brfss_data.loc[y.index].drop(columns=targets)
+X_encoded = pd.get_dummies(X, drop_first=True)
+# -----------------------------
+# Step 3: Train-test split
+# -----------------------------
+X_train, X_test, y_train, y_test = train_test_split(
+X_encoded, y, test_size=0.2, random_state=42, stratify=y
+)
+# -----------------------------
+# Step 4: Impute missing values
+# -----------------------------
+imputer = SimpleImputer(strategy="median")
+X_train_imputed = imputer.fit_transform(X_train)
+X_test_imputed = imputer.transform(X_test)
+from imblearn.over_sampling import SMOTE
+# select only the column you want to balance
+y_train_target = y_train['CVDCRHD4']
+sm = SMOTE(random_state=42)
+2/7/26, 2:58 PM Untitled5.ipynb - Colab
+https://colab.research.google.com/drive/1GjASjJTP5jcSFMGBVE-FpmVQ_lFo-He4#scrollTo=R6TSXAF_-pFq&printMode=true 8/10
+X_train_res, y_train_res = sm.fit_resample(X_train_df, y_train_target)
+# -----------------------------
+# Step 5: Scale features
+# -----------------------------
+scaler = StandardScaler()
+X_train_scaled = scaler.fit_transform(X_train_imputed)
+X_test_scaled = scaler.transform(X_test_imputed)
+from imblearn.over_sampling import SMOTE
+# -----------------------------
+# Step 6: Build the neural network
+# -----------------------------
+input_dim = X_train_scaled.shape[1]
+# Input layer
+inputs = Input(shape=(input_dim,))
+# Shared hidden layers
+x = Dense(128, activation='relu')(inputs)
+x = Dense(64, activation='relu')(x)
+# Separate output nodes for each disease
+output_diabetes = Dense(1, activation='sigmoid', name='diabetes')(x)
+output_bp = Dense(1, activation='sigmoid', name='hypertension')(x)
+output_heart = Dense(1, activation='sigmoid', name='heart_disease')(x)
+# Build model
+model = Model(inputs=inputs, outputs=[output_diabetes, output_bp, output_heart])
+# Compile model
+model.compile(
+optimizer=Adam(learning_rate=0.001),
+loss={
+'diabetes': 'binary_crossentropy',
+'hypertension': 'binary_crossentropy',
+'heart_disease': 'binary_crossentropy'
+},
+metrics={
+'diabetes': 'accuracy',
+'hypertension': 'accuracy',
+'heart_disease': 'accuracy'
+}
+)
+# -----------------------------
+# Step 7: Train the model
+# -----------------------------
+history = model.fit(
+X_train_scaled,
+[y_train['DIABETE3'], y_train['BPHIGH4'], y_train['CVDCRHD4']],
+validation_split=0.2,
+epochs=50,
+batch_size=64
+)
+# -----------------------------
+# Step 8: Evaluate on test set
+# -----------------------------
+results = model.evaluate(
+X_test_scaled,
+[y_test['DIABETE3'], y_test['BPHIGH4'], y_test['CVDCRHD4']]
+)
+print(results)
+# -----------------------------
+# Step 9: Predict probabilities for new patients
+# -----------------------------
+probs = model.predict(X_test_scaled[:5]) # first 5 patients
+# probs is a list of 3 arrays: [diabetes_probs, hypertension_probs, heart_disease_probs]
+# Each array has shape (num_samples,1)
+for i in range(5): # loop over patients
+print(f"\nPatient {i+1}:")
+2/7/26, 2:58 PM Untitled5.ipynb - Colab
+https://colab.research.google.com/drive/1GjASjJTP5jcSFMGBVE-FpmVQ_lFo-He4#scrollTo=R6TSXAF_-pFq&printMode=true 9/10
+print(f" Diabetes probability: {probs[0][i,0]*100:.1f}%")
+print(f" Hypertension probability: {probs[1][i,0]*100:.1f}%")
+print(f" Heart Disease probability:{probs[2][i,0]*100:.1f}%")
+patient_probs = pd.DataFrame({
+'Diabetes': probs[0][:,0]*100,
+'Hypertension': probs[1][:,0]*100,
+'Heart Disease': probs[2][:,0]*100
+})
+Show hidden output
+results = model.evaluate(
+X_test_scaled,
+[y_test['DIABETE3'], y_test['BPHIGH4'], y_test['CVDCRHD4']]
+)
+print("Test set metrics:", results)
+274/274 ━━━━━━━━━━━━━━━━━━━━ 1s 3ms/step - diabetes_accuracy: 0.9720 - diabetes_loss: 0.1222 - heart_disease_accuracy: 0.8381 -
+Test set metrics: [0.6448183059692383, 0.12655217945575714, 0.05285250395536423, 0.46534380316734314, 0.9698492288589478, 0.8329
+# Predict probabilities for first 5 patients
+probs = model.predict(X_test_scaled[:5])
+for i in range(5):
+print(f"\nPatient {i+1}:")
+print(f" Diabetes probability: {probs[0][i][0]*100:.1f}%")
+print(f" Hypertension probability: {probs[1][i][0]*100:.1f}%")
+print(f" Heart Disease probability:{probs[2][i][0]*100:.1f}%")
+Show hidden output
+import matplotlib.pyplot as plt
+plt.plot(history.history['heart_disease_accuracy'], label='Heart Disease Accuracy')
+plt.plot(history.history['val_heart_disease_accuracy'], label='Val Heart Disease Accuracy')
+plt.legend()
+plt.show()
+Show hidden output
+2/7/26, 2:58 PM Untitled5.ipynb - Colab
+https://colab.research.google.com/drive/1GjASjJTP5jcSFMGBVE-FpmVQ_lFo-He4#scrollTo=R6TSXAF_-pFq&printMode=true 10/10
