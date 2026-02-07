@@ -39,4 +39,4 @@ These files are ready to be used in your final documentation:
 - **Dependencies:** Fully isolated within the `memoona` Conda environment.
 
 ---
-**Status:** ✅ MODEL VALIDATED & READY FOR DEFENSE
+**Statuss:** ✅ MODEL VALIDATED & READY FOR DEFENSE
